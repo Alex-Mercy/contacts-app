@@ -2,25 +2,15 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import { Container, IconButton, TextField } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import { IconButton, TextField } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-import { apiSetContacts, apiAddNewContact, apiDeleteContact } from '../redux/actions/contactsAC';
+import { apiSetContacts, apiAddNewContact, apiDeleteContact, apiUpdateContact } from '../redux/actions/contactsAC';
+import ContactsData from '../components/ContactsData';
+import ContactsDataForm from '../components/ContactsDataForm';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        margin: 10,
-        width: '100%',
-        maxWidth: '100%',
-
-    },
     form: {
         '& > *': {
             margin: theme.spacing(6, 1.5),
@@ -37,9 +27,13 @@ export default function Contacts() {
     const contacts = useSelector(({ contacts }) => contacts.items);
 
     const [inputText, setInputText] = React.useState({
+        id: "",
         name: "",
-        phone: ""
+        phone: "",
+        image: ""
     })
+
+    const [editMode, setEditMode] = React.useState(false)
 
     useEffect(() => {
         dispatch(apiSetContacts(contacts));
@@ -47,63 +41,74 @@ export default function Contacts() {
 
 
     const handleChange = (e) => {
-        const { id, value } = e.target
+        const { name, value } = e.target
         setInputText(() => {
             return {
                 ...inputText,
-                [id]: value
+                [name]: value
             }
         })
     }
 
-
-    const onClickAddNewContact = (e) => {
+    const onClickAddNewContact = () => {
         dispatch(apiAddNewContact(inputText))
         setInputText({
+            id: "",
             name: "",
-            phone: ""
+            phone: "",
+            image: ""
         });
     }
 
-    const handleDeleteContact = (id) => {
-        console.log(id);
-        
+    const onClickEnableEditMode = (id) => {
+        setEditMode(true)
+        const selectedContact = contacts.find(contact => contact.id == id)
+        setInputText(selectedContact)
+    }
+
+    const onClickUpdateContact = () => {
+        dispatch(apiUpdateContact(inputText))
+        console.log(inputText);
+        // setEditMode(false)
+    }
+
+    const onClickDeleteContact = (id) => {
+        dispatch(apiDeleteContact(id))
     }
 
     return (
-        <Container component="main" maxWidth="sm" >
-            <List dense className={classes.root}>
-                {contacts.map((contact) => {
-                    return (
-                        <ListItem key={contact.id} button >
-                            <ListItemAvatar>
-                                <Avatar
-                                    alt={`Avatar n°${contact.id}`}
-                                    src={contact.image}
-                                    id={contact.id}
-                                />
-                            </ListItemAvatar>
-                            <ListItemText id={contact.id}
-                                primary={contact.name}
-                                secondary={contact.phone} />
+        <Grid container direction="column" justifyContent="center" alignItems="center">
+            <Grid item xs={12}>
+                {editMode ?
+                    <ContactsDataForm
+                        inputText={inputText}
+                        handleChange={handleChange}
+                        updateContact={onClickUpdateContact}
+                    />
+                    : <ContactsData
+                        contacts={contacts}
+                        deleteContact={onClickDeleteContact}
+                        enableEditMode={onClickEnableEditMode}
+                        
 
-                            <IconButton color="primary" edge="end" aria-label="edit">
-                                <EditIcon />
-                            </IconButton>
-                            <IconButton onClick={handleDeleteContact} color="secondary" edge="end" aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItem>
-                    );
-                })}
-            </List>
-            <form className={classes.form} noValidate autoComplete="off">
-                <TextField onChange={handleChange} id="name" label="Name" value={inputText.name} />
-                <TextField onChange={handleChange} id="phone" label="Phone" value={inputText.phone} />
-                <IconButton onClick={onClickAddNewContact} className={classes.input} color="primary" aria-label="adNew">
-                    <AddCircleOutlineIcon />
-                </IconButton>
-            </form>
-        </Container>
+                    />
+                }
+            </Grid>
+            <Grid item>
+                {!editMode &&
+                    <form className={classes.form} noValidate autoComplete="off">
+                        <TextField onChange={handleChange} name="image" label="Link to avatar" value={inputText.image} />
+                        <TextField onChange={handleChange} name="name" label="Name" value={inputText.name} />
+                        <TextField onChange={handleChange} name="phone" label="Phone" value={inputText.phone} />
+                        <IconButton onClick={onClickAddNewContact} className={classes.input} color="primary" aria-label="adNew">
+                            <AddCircleOutlineIcon />
+                        </IconButton>
+                    </form>
+                }
+
+            </Grid>
+            <Grid item>
+            </Grid>
+        </Grid>
     );
 }

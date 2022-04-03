@@ -1,12 +1,6 @@
 {
   "contacts": [
     {
-      "id": 1,
-      "name": "Ivan Urgant",
-      "phone": "+79651284597",
-      "image": "https://st03.kakprosto.ru/images/article/2019/6/20/106096_5d0b0bd2015cb5d0b0bd201609.jpeg"
-    },
-    {
       "id": 2,
       "name": "Dmitry Nagiyev",
       "phone": "+79805478935",
@@ -38,56 +32,21 @@
     },
     {
       "id": 7,
-      "name": "Ivan Urgant",
-      "phone": "+79651284597",
-      "image": "https://st03.kakprosto.ru/images/article/2019/6/20/106096_5d0b0bd2015cb5d0b0bd201609.jpeg"
+      "name": "цуаыва",
+      "phone": "йцуа",
+      "image": "http://almode.ru/uploads/posts/2021-02/1612677856_8-p-emma-uotson-15.jpg"
     },
     {
-      "name": "asf",
-      "number": "",
-      "phone": "asf",
+      "name": "цуки",
+      "phone": "цуки",
+      "image": "цуки",
       "id": 8
     },
     {
-      "name": "asf",
-      "number": "",
-      "phone": "afs",
-      "id": 9
-    },
-    {
-      "name": "ewc",
-      "phone": "ev",
-      "id": 10
-    },
-    {
-      "name": "waeg",
-      "phone": "13214",
-      "id": 11
-    },
-    {
-      "name": "234",
-      "phone": "2323",
-      "id": 12
-    },
-    {
-      "name": "wef",
-      "phone": "w234",
-      "id": 13
-    },
-    {
-      "name": "wef",
-      "phone": "w234",
-      "id": 14
-    },
-    {
-      "name": "weg",
-      "phone": "weg",
-      "id": 15
-    },
-    {
-      "name": "asdg",
-      "phone": "asdg",
-      "id": 18
+      "id": 9,
+      "name": "укыфвпаук",
+      "phone": "киуыфвп",
+      "image": "вупывп"
     }
   ],
   "users": [

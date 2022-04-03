@@ -5,6 +5,11 @@ export const setLoaded = (payload) => ({
     payload,
 });
 
+export const setContacts = (contacts) => ({
+    type: 'SET_CONTACTS',
+    payload: contacts,
+});
+
 
 
 export const apiSetContacts = (contacts) => (dispatch) => {
@@ -30,24 +35,34 @@ export const apiAddNewContact = contactObj => {
     }
 }
 
+export const apiUpdateContact = contactObj => {
+    return (dispatch) => {
+        axios.put('http://localhost:3001/contacts/9', contactObj)
+        .then(response => {
+            console.log(response.data);
+            dispatch({
+                type: 'UPDATE_CONTACT',
+                payload: response.data
+            }) 
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+}
+
 export const apiDeleteContact = (id) => (dispatch) => {
-    axios.delete(`http://localhost:3001/contacts/17`)
+    axios.delete(`http://localhost:3001/contacts/${id}`)
     .then(response => {
-        console.log(response.data)
         dispatch({
             type: 'DELETE_CONTACT',
-            payload: response.data
+            payload: id
         }) 
     }).catch(error => {
         console.log(error);
     });
 }
 
-
-export const setContacts = (contacts) => ({
-    type: 'SET_CONTACTS',
-    payload: contacts,
-});
 
 
 
