@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector, useDispatch, } from 'react-redux';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +10,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { CssBaseline } from '@material-ui/core';
+
+
+import { addSearchValue } from '../redux/actions/contactsAC';
+
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,16 +70,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function Header() {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const searchValue = useSelector(({ contacts }) => contacts.searchValue);
+
+  const handleChange = (e) => {
+    dispatch(addSearchValue(e.target.value));
+  }
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-        <CssBaseline />
+          <CssBaseline />
           <Typography className={classes.title} variant="h6" noWrap>
-          <Button component={Link} to="/" color="inherit">Contacts</Button>
+            <Button component={Link} to="/" color="inherit">Contacts</Button>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -84,6 +100,8 @@ export default function Header() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleChange}
+              value={searchValue}
             />
           </div>
           <Button component={Link} to="/login">Login</Button>

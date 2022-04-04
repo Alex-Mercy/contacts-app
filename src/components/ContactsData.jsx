@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -9,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { IconButton } from '@material-ui/core';
+
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -23,11 +25,12 @@ const useStyles = makeStyles(() => ({
 
 function ContactsData({ contacts, deleteContact, enableEditMode }) {
     const classes = useStyles();
+    const searchValue = useSelector(({ contacts }) => contacts.searchValue);
+    const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(searchValue));
 
-debugger;
     return (
         <List dense className={classes.root}>
-            {contacts.map((contact) => {
+            {filteredContacts.map((contact) => {
                 return (
                     <ListItem key={contact.id} button  >
                         <ListItemAvatar>

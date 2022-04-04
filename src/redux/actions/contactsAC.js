@@ -10,6 +10,11 @@ export const setContacts = (contacts) => ({
     payload: contacts,
 });
 
+export const addSearchValue = (value) => ({
+    type: 'SEARCH_VALUE',
+    payload: value,
+});
+
 
 
 export const apiSetContacts = (contacts) => (dispatch) => {
@@ -37,9 +42,8 @@ export const apiAddNewContact = contactObj => {
 
 export const apiUpdateContact = contactObj => {
     return (dispatch) => {
-        axios.put('http://localhost:3001/contacts/9', contactObj)
+        axios.put(`http://localhost:3001/contacts/${contactObj.id}`, contactObj)
         .then(response => {
-            console.log(response.data);
             dispatch({
                 type: 'UPDATE_CONTACT',
                 payload: response.data

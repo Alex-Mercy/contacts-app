@@ -2,6 +2,7 @@
 const initialState = {
     items: [],
     isLoaded: false,
+    searchValue: ''
 };
 
 const contactsReducer = (state = initialState, action) => {
@@ -22,17 +23,25 @@ const contactsReducer = (state = initialState, action) => {
                 ...state,
                 items: [...state.items, action.payload]
             };
-            case 'DELETE_CONTACT':
+        case 'DELETE_CONTACT':
             return {
                 ...state,
                 items: state.items.filter(item => item.id !== action.payload)
             };
-            case 'UPDATE_CONTACT':
+        case 'UPDATE_CONTACT':
             return {
                 ...state,
-                items: action.payload,
-                isLoaded: true
+                items: state.items.map(item => item.id === action.payload.id ?
+                    action.payload :
+                    item
+                )
             };
+        case 'SEARCH_VALUE':
+            return {
+                ...state,
+                searchValue: action.payload,
+            };
+
 
         default:
             return state;

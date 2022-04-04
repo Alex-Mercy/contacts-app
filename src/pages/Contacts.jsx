@@ -64,12 +64,19 @@ export default function Contacts() {
         setEditMode(true)
         const selectedContact = contacts.find(contact => contact.id == id)
         setInputText(selectedContact)
+        
     }
 
     const onClickUpdateContact = () => {
         dispatch(apiUpdateContact(inputText))
-        console.log(inputText);
-        // setEditMode(false)
+        setEditMode(false)
+        setInputText({
+            id: "",
+            name: "",
+            phone: "",
+            image: ""
+        });
+
     }
 
     const onClickDeleteContact = (id) => {
