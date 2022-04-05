@@ -41,7 +41,7 @@ export default function Contacts() {
 
 
     const handleChange = (e) => {
-        const { name, value } = e.target
+        const { name, value } = e.target;
         setInputText(() => {
             return {
                 ...inputText,

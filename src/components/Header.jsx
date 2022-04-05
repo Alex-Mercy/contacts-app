@@ -104,7 +104,8 @@ export default function Header() {
               value={searchValue}
             />
           </div>
-          <Button component={Link} to="/login">Login</Button>
+          <Button component={Link} to="/login">Log in</Button>
+          <Button component={Link} to="/register">Sign up</Button>
         </Toolbar>
       </AppBar>
     </div>

@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import { logInStart } from '../redux/auth/authActions';
+import { registerStart } from '../redux/auth/authActions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,18 +35,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Register() {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const [credentials, setCredentials] = React.useState({ email: '', password: '' });
+
+  const dispatch = useDispatch();
 
   const handleChange = (e) =>
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(logInStart(credentials));
+    dispatch(registerStart(credentials));
   };
 
   return (
@@ -57,9 +59,9 @@ export default function Login() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-        Log In to Your Account!
+          Sign Up and Start Working!
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit} >
           <TextField
             variant="outlined"
             margin="normal"
@@ -71,7 +73,7 @@ export default function Login() {
             autoComplete="email"
             autoFocus
             value={credentials.email}
-            onChange={handleChange}
+          onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -84,7 +86,7 @@ export default function Login() {
             id="password"
             autoComplete="current-password"
             value={credentials.password}
-            onChange={handleChange}
+          onChange={handleChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -97,7 +99,7 @@ export default function Login() {
             color="primary"
             className={classes.submit}
           >
-            Log In
+            Sign Up
           </Button>
         </form>
       </div>
