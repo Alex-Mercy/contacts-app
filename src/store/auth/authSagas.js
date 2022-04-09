@@ -1,28 +1,10 @@
-import axios from 'axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-import {
-  logInFailure,
-  logInSuccess,
-  registerFailure,
-  registerSuccess,
-} from './authActions';
+import { logInFailure, logInSuccess, registerFailure, registerSuccess } from './authActions';
+import {logIn, register} from '../api';
 import types from './authActionTypes';
 
-const logIn = async (email, password) => {
-  const response = await axios.post('http://localhost:3001/login', {
-    email,
-    password,
-  });
-  return { token: response.data.accessToken };
-};
 
-const register = async (email, password) => {
-  await axios.post('http://localhost:3001/register', {
-    email,
-    password,
-  });
-};
 
 export function* logInWithCredentials({ payload: { email, password } }) {
   try {
@@ -45,6 +27,7 @@ export function* registerWithCredentials({ payload: { email, password } }) {
 export function* logInAfterRegister({ payload: { email, password } }) {
   yield logInWithCredentials({ payload: { email, password } });
 }
+
 
 export function* onLogInStart() {
   yield takeLatest(types.LOG_IN_START, logInWithCredentials);

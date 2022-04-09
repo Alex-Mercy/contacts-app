@@ -1,11 +1,11 @@
 import types from './authActionTypes';
 
-const initialState = {
+const INITIAL_STATE = {
   currentUser: null,
   error: null,
 };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.LOG_IN_SUCCESS:
       return {
@@ -20,7 +20,7 @@ const authReducer = (state = initialState, action) => {
         error: action.payload,
       };
     case types.LOG_OUT:
-      return initialState;
+      return INITIAL_STATE;
     default:
       return state;
   }

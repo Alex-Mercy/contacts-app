@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -10,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { IconButton } from '@material-ui/core';
+
 
 
 const useStyles = makeStyles(() => ({
@@ -63,5 +65,16 @@ function ContactsData({ contacts, deleteContact, enableEditMode }) {
         </List>
     )
 }
+
+ContactsData.propTypes = {
+    contacts: PropTypes.arrayOf(PropTypes.object),
+    deleteContact: PropTypes.func,
+    enableEditMode: PropTypes.func,    
+};
+
+ContactsData.defaultProps = {
+    contacts: [],
+};
+
 
 export default ContactsData

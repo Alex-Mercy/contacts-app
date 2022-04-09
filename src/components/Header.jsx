@@ -11,10 +11,8 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { CssBaseline } from '@material-ui/core';
 
-
-import { addSearchValue } from '../redux/actions/contactsAC';
-
-
+import { logOut } from '../store/auth/authActions';
+import { addSearchValue } from '../store/contacts/contactsActions';
 
 
 
@@ -37,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
+    marginRight: 30,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
@@ -54,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: 'inherit',
+    marginRight: '5px'
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -68,7 +68,11 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  loginButton: {
+    marginRight: 10
+  }
 }));
+
 
 
 export default function Header() {
@@ -76,6 +80,7 @@ export default function Header() {
 
   const dispatch = useDispatch();
   const searchValue = useSelector(({ contacts }) => contacts.searchValue);
+  const auth = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
     dispatch(addSearchValue(e.target.value));
@@ -104,8 +109,13 @@ export default function Header() {
               value={searchValue}
             />
           </div>
-          <Button component={Link} to="/login">Log in</Button>
-          <Button component={Link} to="/register">Sign up</Button>
+          {!auth.currentUser ?
+            <>
+              <Button className={classes.loginButton} component={Link} variant="contained" color="primary" to="/login">Log in</Button>
+              <Button component={Link} to="/register" variant="contained" color="primary">Sign up</Button>
+            </>
+            : <Button onClick={() => dispatch(logOut())} >Logout</Button>
+          }
         </Toolbar>
       </AppBar>
     </div>

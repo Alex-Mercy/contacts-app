@@ -1,8 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function ContactsDataForm({ updateContact, inputText, handleChange }) {
+function ContactEditMode({ updateContact, inputText, handleChange }) {
     const classes = useStyles();
     return (
         <div className={classes.div}>
@@ -42,4 +44,16 @@ function ContactsDataForm({ updateContact, inputText, handleChange }) {
     )
 }
 
-export default ContactsDataForm
+ContactEditMode.propTypes = {
+    inputText: PropTypes.object,
+    updateContact: PropTypes.func,
+    handleChange: PropTypes.func,    
+};
+
+ContactEditMode.defaultProps = {
+    inputText: {},
+};
+
+
+
+export default ContactEditMode

@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch, } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { IconButton, TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-import { apiSetContacts, apiAddNewContact, apiDeleteContact, apiUpdateContact } from '../redux/actions/contactsAC';
+import { onSetContacts, onAddNewContact, deleteContact, onEditContact } from '../store/contacts/contactsActions';
 import ContactsData from '../components/ContactsData';
-import ContactsDataForm from '../components/ContactsDataForm';
+import ContactEditMode from '../components/ContactEditMode';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -16,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(6, 1.5),
         },
     },
-
-
 }));
 
 export default function Contacts() {
@@ -25,6 +24,7 @@ export default function Contacts() {
 
     const dispatch = useDispatch();
     const contacts = useSelector(({ contacts }) => contacts.items);
+    const auth = useSelector((state) => state.auth);
 
     const [inputText, setInputText] = React.useState({
         id: "",
@@ -36,7 +36,7 @@ export default function Contacts() {
     const [editMode, setEditMode] = React.useState(false)
 
     useEffect(() => {
-        dispatch(apiSetContacts(contacts));
+        dispatch(onSetContacts(contacts));
     }, []);
 
 
@@ -51,7 +51,7 @@ export default function Contacts() {
     }
 
     const onClickAddNewContact = () => {
-        dispatch(apiAddNewContact(inputText))
+        dispatch(onAddNewContact(inputText))
         setInputText({
             id: "",
             name: "",
@@ -62,13 +62,12 @@ export default function Contacts() {
 
     const onClickEnableEditMode = (id) => {
         setEditMode(true)
-        const selectedContact = contacts.find(contact => contact.id == id)
+        const selectedContact = contacts.find(contact => contact.id === id)
         setInputText(selectedContact)
-        
     }
 
     const onClickUpdateContact = () => {
-        dispatch(apiUpdateContact(inputText))
+        dispatch(onEditContact(inputText))
         setEditMode(false)
         setInputText({
             id: "",
@@ -76,18 +75,19 @@ export default function Contacts() {
             phone: "",
             image: ""
         });
-
     }
 
     const onClickDeleteContact = (id) => {
-        dispatch(apiDeleteContact(id))
+        dispatch(deleteContact(id))
     }
 
+    if (!auth.currentUser)
+        return <Navigate to="/login" />
     return (
         <Grid container direction="column" justifyContent="center" alignItems="center">
             <Grid item xs={12}>
                 {editMode ?
-                    <ContactsDataForm
+                    <ContactEditMode
                         inputText={inputText}
                         handleChange={handleChange}
                         updateContact={onClickUpdateContact}
@@ -96,8 +96,6 @@ export default function Contacts() {
                         contacts={contacts}
                         deleteContact={onClickDeleteContact}
                         enableEditMode={onClickEnableEditMode}
-                        
-
                     />
                 }
             </Grid>
@@ -112,7 +110,6 @@ export default function Contacts() {
                         </IconButton>
                     </form>
                 }
-
             </Grid>
             <Grid item>
             </Grid>
